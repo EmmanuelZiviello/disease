@@ -11,7 +11,7 @@ from F_taste_disease.db import set_DB_CONFIG,create_db
 from F_taste_disease.ma import ma
 
 from F_taste_disease.namespaces import nutrizionista_ns,paziente_ns
-from F_taste_disease.controllers.disease_controller import Disease
+from F_taste_disease.controllers.disease_controller import Disease,DiseaseDelPaziente,AllDisease
 
 
 from F_taste_disease.utils.jwt_custom_decorators import NoAuthorizationException
@@ -120,6 +120,8 @@ def create_app():
 
    
     nutrizionista_ns.add_resource(Disease, '/disease')
+    nutrizionista_ns.add_resource(AllDisease, '/get_all_disease')
+    nutrizionista_ns.add_resource(DiseaseDelPaziente, '/disease_del_paziente')
     
     
     

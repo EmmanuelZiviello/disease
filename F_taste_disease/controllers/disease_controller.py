@@ -11,9 +11,10 @@ disease_request_model = nutrizionista_ns.model('disease', {
 }, strict=True)
 
 
+
 class Disease(Resource):
 
-    #da provare
+    #da provare(problema che le condizioni devono essere già nel db)
     @nutrizionista_required()
     @nutrizionista_ns.expect(disease_request_model)
     @nutrizionista_ns.doc('Inserisci una condizione al paziente')
@@ -22,7 +23,7 @@ class Disease(Resource):
         email_nutrizionista = get_jwt_identity()
         return DiseaseService.add_disease_to_patient(request_json["id_paziente"],request_json["disease"],email_nutrizionista)
     
-    #da provare
+    #da provare(problema che le condizioni devono essere già nel db)
     @nutrizionista_required()
     @nutrizionista_ns.doc('Elimina una patologia al paziente', params={'fk_paziente': 'PAZ1234', 'patologia': 'una_patologia'})
     def delete(self):
@@ -38,3 +39,40 @@ class Disease(Resource):
             id_paziente=request_data['id_paziente'],
             disease=request_data['disease']
         )
+    
+class AllDisease(Resource):
+
+    #da provare
+    @nutrizionista_required()
+    @nutrizionista_ns.doc('Ottieni tutte le patologie')
+    def get(self):
+        
+
+        try:
+            # Usiamo il service per ottenere i dati elaborati
+            data = DiseaseService.process_data()
+
+            # Se i dati sono validi, restituiamo la risposta con codice 200
+            if data:
+                return data, 200
+
+            # Altrimenti restituiamo una lista vuota
+            return [], 200
+
+        except Exception:
+            return {"message": "Internal Server Error"}, 500
+        
+class DiseaseDelPaziente(Resource):
+
+    #da provare
+    @nutrizionista_required()
+    @nutrizionista_ns.doc("ricevi le condizioni associate ad un paziente", params={'id_paziente': 'PAZ1234'})
+    def get(self):
+        request_args = request.args
+        email_nutrizionista = get_jwt_identity()
+
+        if "id_paziente" not in request_args:
+            return {"error": "Il campo id_paziente è obbligatorio."}, 400
+
+
+        return DiseaseService.get_conditions(request_args["id_paziente"], email_nutrizionista)
