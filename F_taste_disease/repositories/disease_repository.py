@@ -26,11 +26,14 @@ class DiseaseRepository:
 
         # Creiamo un nuovo record con l'id_paziente
         if isinstance(disease_model, PatologiaModel):
-            new_disease = PatologiaModel(patologia=disease, id_paziente=id_paziente)
+            new_disease = PatologiaModel(patologia=disease)
+            new_disease.id_paziente=id_paziente
         elif isinstance(disease_model, AllergiaModel):
-            new_disease = AllergiaModel(allergia=disease, id_paziente=id_paziente)
+            new_disease = AllergiaModel(allergia=disease)
+            new_disease.id_paziente=id_paziente
         elif isinstance(disease_model, IntolleranzaModel):
-            new_disease = IntolleranzaModel(intolleranza=disease, id_paziente=id_paziente)
+            new_disease = IntolleranzaModel(intolleranza=disease)
+            new_disease.id_paziente=id_paziente
         else:
             raise ValueError("Tipo di condizione non riconosciuto")
 
