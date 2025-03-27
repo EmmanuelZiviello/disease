@@ -47,7 +47,7 @@ class DiseaseService:
                                 if not DiseaseRepository.check_association(disease,id_paziente, session):
                                     DiseaseRepository.associate_disease(id_paziente,disease,session)
                                     session.close()
-                                    return {"message:""Condizione associata con successo"}, 200 
+                                    return {"message":"Condizione associata con successo"}, 200 
                                 else:
                                     session.close()
                                     return {'message': 'il paziente  è già associato alla condizione'}, 404
