@@ -28,3 +28,9 @@ class IntolleranzaRepository:
         except Exception as e:
             # In caso di errore, ritorniamo una lista vuota
             return []
+        
+    @staticmethod
+    def add(intolleranza, session=None):
+        session=session or get_session('dietitian')
+        session.add(intolleranza)
+        session.commit()  

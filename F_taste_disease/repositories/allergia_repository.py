@@ -28,3 +28,9 @@ class AllergiaRepository:
         except Exception as e:
             # In caso di errore, ritorniamo una lista vuota
             return []
+        
+    @staticmethod
+    def add(allergia, session=None):
+        session=session or get_session('dietitian')
+        session.add(allergia)
+        session.commit()  

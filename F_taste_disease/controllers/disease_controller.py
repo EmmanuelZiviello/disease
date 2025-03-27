@@ -7,7 +7,7 @@ from F_taste_disease.services.disease_service import DiseaseService
 
 disease_request_model = nutrizionista_ns.model('disease', {
     "disease": fields.String(description="Patologia del paziente", example="Diabete tipo II", required=True),
-    "id_paziente": fields.String(description="ID paziente", example="PAZ1234", required=True)
+    "fk_paziente": fields.String(description="ID paziente", example="PAZ1234", required=True)
 }, strict=True)
 
 
@@ -42,7 +42,7 @@ class Disease(Resource):
     
 class AllDisease(Resource):
 
-    #da provare
+    
     @nutrizionista_required()
     @nutrizionista_ns.doc('Ottieni tutte le patologie')
     def get(self):
@@ -62,9 +62,15 @@ class AllDisease(Resource):
         except Exception:
             return {"message": "Internal Server Error"}, 500
         
+
+    @nutrizionista_ns.doc('debug per aggiungere diseases nel db')
+    def post(self):
+        request_json = request.get_json()
+        return DiseaseService.add(request_json)
+        
 class DiseaseDelPaziente(Resource):
 
-    #da provare
+    
     @nutrizionista_required()
     @nutrizionista_ns.doc("ricevi le condizioni associate ad un paziente", params={'id_paziente': 'PAZ1234'})
     def get(self):

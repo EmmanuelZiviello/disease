@@ -7,6 +7,11 @@ from F_taste_disease.kafka.kafka_producer import send_kafka_message
 from F_taste_disease.utils.kafka_helpers import wait_for_kafka_response
 
 
+from F_taste_disease.models.allergia import AllergiaModel
+from F_taste_disease.models.intolleranza import IntolleranzaModel
+from F_taste_disease.models.patologia import PatologiaModel
+
+
 class DiseaseService:
 
 
@@ -228,3 +233,17 @@ class DiseaseService:
             return {"esito get_conditions":"Dati mancanti"}, 400
         elif response_paziente.get("status_code") == "404":
             return {"esito get_conditions":"Paziente non presente nel db"}, 404
+        
+
+
+    @staticmethod
+    def add(s_diseases):
+        session=get_session('dietitian')
+        allergia=AllergiaModel(s_diseases.get("allergia"))
+        intolleranza=IntolleranzaModel(s_diseases.get("intolleranza"))
+        patologia=PatologiaModel(s_diseases.get("patologia"))
+        AllergiaRepository.add(allergia,session)
+        IntolleranzaRepository.add(intolleranza,session)
+        PatologiaRepository.add(patologia,session)
+        session.close()
+        return {"esito add_disease":"Diseases aggiunti con successo"}
