@@ -21,7 +21,7 @@ class Disease(Resource):
     def post(self):
         request_json=request.get_json()
         email_nutrizionista = get_jwt_identity()
-        return DiseaseService.add_disease_to_patient(request_json["id_paziente"],request_json["disease"],email_nutrizionista)
+        return DiseaseService.add_disease_to_patient(request_json["fk_paziente"],request_json["disease"],email_nutrizionista)
     
     #da provare(problema che le condizioni devono essere già nel db)
     @nutrizionista_required()
